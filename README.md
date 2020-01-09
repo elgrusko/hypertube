@@ -7,8 +7,7 @@ Technos utilisées :
 	Pour lancer le serveur Python : cd hypertube && python3 manage.py runserver
     Puis, dans un autre terminal, pour lancer le serveur Node : cd test-express && nodemon index.js
 	
-	En cas d'erreur, veillez à bien installer tous les modules python nécessaires (pip3 install ..)
-	Et en cas d'erreur sur le premier terminal, (npm install ...)
+	En cas d'erreur, veillez à bien installer tous les modules python nécessaires (pip3 install, npm install ..)
 ​
 Ensuite, dans un navigateur :
 ​
