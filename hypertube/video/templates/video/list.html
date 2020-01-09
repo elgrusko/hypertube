@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+{% load staticfiles %}
+
+<script src="{% static "js/jquery-1.11.1.js" %}"></script>
+<script src="{% static "js/rango-jquery.js" %}"></script>
+{% block content %}
+
+  {% if film %}
+  <div class="row">
+        {% for f in film %}
+        {%if f.4 %}
+          <div class="column">
+            <div class="content">
+              <div class="floutage">
+                <h3 class="texte_centre"> {{f.3}} / 10</h3>
+                <img class="etoile" src="../media/etoile.png">
+                  {% if f.5 == False %}
+                     <a href="{% url 'tittle_video' tittle=f.4 %}"><img class="gris1234" src="{{f.2}}" alt="{{f.1}}" style="width:100%"></a>
+                  {% else %}
+                    <a href="{% url 'serie' title=f.4 %}"><img class="gris1234" src="{{f.2}}" alt="{{f.1}}" style="width:100%"></a>
+                  {% endif %}
+                <button class="button button3">View Details</button>
+               </div>
+              <h5 class="titre">{{f.1}}</h5>
+              <span class="hidden-xs icon-star"></span>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+  {% elif movies %}
+  <div class="row">
+            {% for mov in movies %}
+                <div class="column">
+                <div class="content">
+                <div class="floutage">
+                  <h3 class="texte_centre"> {{mov.rate}} / 10</h3>
+                  <img class="etoile" src="media/etoile.png">
+                  {% if mov.serie == False %}
+                      {% if mov.id in grey %}
+                        <a href="{% url 'tittle_video' tittle=mov.id %}"><img class="gris1234" src="{{mov.miniature}}" alt="{{mov.name}}" style="width:100%; filter: grayscale(1) blur(3px);"></a>
+                      {% else %}
+                        <a href="{% url 'tittle_video' tittle=mov.id %}"><img class="gris1234" src="{{mov.miniature}}" alt="{{mov.name}}" style="width:100%;"></a>
+                      {% endif %}
+                    {% else %}
+                    {% if mov.id in grey %}
+                      <a href="{% url 'serie' title=mov.id %}"><img class="gris1234" src="{{mov.miniature}}" alt="{{mov.name}}" style="width:100%; filter: grayscale(1) blur(3px);"></a>
+                      {% else %}
+                      <a href="{% url 'serie' title=mov.id %}"><img class="gris1234" src="{{mov.miniature}}" alt="{{mov.name}}" style="width:100%;"></a>
+                      {% endif %}
+                  {% endif %}
+                  <button class="button button3">View Details</button>
+                </div>
+                  <h5 class="titre">{{mov.name}}</h5>
+                  {% if 'rate' in mov %}
+                  <span class="hidden-xs icon-star"></span>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+  </div>
+  {% endif %}
+  
+  <!-- END GRID -->
+  
+  <!-- END MAIN -->
+  </div>
+    </main>
+
+      <div id="movieList">
+<p style='color: rgb(20, 20, 20);'>Movie 1</p>
+</div>
+  <!-- END GRID -->
+  
+  <!-- END MAIN -->
+</main>
+<script>
+window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+       //User is currently at the bottom of the page
+        addNewItem();
+    }
+};
+
+
+function addNewItem(){
+   var itemCount = document.getElementById("movieList").childElementCount;
+const itemLimit = 10; //total number of items to retrieve
+//retrieve the next list of items from wherever
+var nextTopItems = getNextItemSimulator(itemCount); 
+nextTopItems.forEach(function(item) {
+//add the items to your view
+  document.getElementById("movieList").innerHTML += "<p style='color: rgb(20, 20, 20);'>"+item+"</p>"; 
+});
+
+function getNextItemSimulator(currentItem){ 
+   //Just some dummy data to simulate an api response
+const dummyItemCount = 400;
+var dummyItems = []; 
+var nextTopDummyItems = [];
+for(i = 1; i <= dummyItemCount; i++){
+//add to main dummy list
+    dummyItems.push("Movie " + i);
+}
+var countTen = 10;
+var nextItem = currentItem + 1;
+for(i = nextItem; i <= dummyItems.length; i++){
+    //get next 10 records from dummy list
+    nextTopDummyItems.push(dummyItems[i - 1]);
+    countTen--;
+    if(countTen == 0)break;
+}
+   return nextTopDummyItems;
+}
+}
+</script>
+    {% endblock content %}
